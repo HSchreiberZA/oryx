@@ -54,7 +54,7 @@ class Reading(resource.Resource):
         return aiocoap.Message(payload=self.content)
 
     async def render_put(self, request):
-        print('PUT payload: %s' % request.payload)
+        print(json.loads(request.payload.decode("utf-8")))
         decoded = Response(**json.loads(request.payload.decode("utf-8")))
         payload = datetime.datetime.now(). \
             strftime("%Y-%m-%d %H:%M").encode('ascii')
