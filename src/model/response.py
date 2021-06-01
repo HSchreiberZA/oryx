@@ -42,8 +42,15 @@ class SPS30(object):
         self.ps = ps
 
 
+class Device(object):
+    def __init__(self, id: str, time):
+        self.id = id
+        self.time = time
+
+
 class Response(object):
-    def __init__(self, sps30: SPS30, bmx280: BMX280, gps: GPS):
+    def __init__(self, sps30: SPS30, bmx280: BMX280, gps: GPS, device: Device):
+        self.device = device
         self.sps30 = sps30
         self.bmx280 = bmx280
         self.gps = gps

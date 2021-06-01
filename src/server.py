@@ -4,29 +4,6 @@ import json
 from model.response import Response
 
 from aiocoap import *
-'''
-logging.basicConfig(level=logging.INFO)
-
-
-async def main():
-    protocol = await Context.create_client_context()
-
-    request = Message(code=PUT, payload=b'this is a test',
-                      uri='coap://[2a04:4540:6601:ab00:428f:1499:ccb3:9107]/other/block')
-
-    try:
-        response = await protocol.request(request).response
-    except Exception as e:
-        print('Failed to fetch resource:')
-        print(e)
-    else:
-        print('Result: %s\n%r' % (response.code, response.payload))
-
-
-if __name__ == "__main__":
-    asyncio.get_event_loop().run_until_complete(main())
-
-'''
 
 import datetime
 import logging
@@ -57,6 +34,27 @@ class BlockResource(resource.Resource):
 
     async def render_put(self, request):
         print('PUT payload: %s' % request.payload.decode("utf-8"))
+        payload = datetime.datetime.now(). \
+            strftime("%Y-%m-%d %H:%M").encode('ascii')
+        return aiocoap.Message(payload=payload)
+
+
+class Reading(resource.Resource):
+
+    def __init__(self):
+        super().__init__()
+        self.set_content(b"This is the resource's default content. It is padded " \
+                         b"with numbers to be large enough to trigger blockwise " \
+                         b"transfer.\n")
+
+    def set_content(self, content):
+        self.content = content
+
+    async def render_get(self, request):
+        return aiocoap.Message(payload=self.content)
+
+    async def render_put(self, request):
+        print('PUT payload: %s' % request.payload)
         decoded = Response(**json.loads(request.payload.decode("utf-8")))
         payload = datetime.datetime.now(). \
             strftime("%Y-%m-%d %H:%M").encode('ascii')
@@ -147,12 +145,12 @@ def main():
     root.add_resource(['other', 'block'], BlockResource())
     root.add_resource(['other', 'separate'], SeparateLargeResource())
     root.add_resource(['whoami'], WhoAmI())
+    root.add_resource(['reading'], Reading())
 
-    asyncio.Task(aiocoap.Context.create_server_context(root, bind=("2a04:4540:6603:5b00:182c:990e:52c1:1b36",None)))
+    asyncio.Task(aiocoap.Context.create_server_context(root, bind=("2a04:4540:660a:d300:c159:8bb1:1b69:fbfc", None)))
 
     asyncio.get_event_loop().run_forever()
 
 
 if __name__ == "__main__":
     main()
-
