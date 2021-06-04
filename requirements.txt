@@ -1,4 +1,3 @@
 aiocoap
 pymongo
 dnspython
-jsonpickle

@@ -10,7 +10,6 @@ import aiocoap
 
 from Mongo import Mongo
 from reading import Reading
-from jsonpickle import encode
 
 mongo = Mongo()
 
