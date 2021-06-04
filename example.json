@@ -1,58 +1,66 @@
 {
-  "sps30":{
-    "mc_pm1":{
-      "value":6.060660,
-      "unit":"µg/m^3"
+  "device": {
+    "node": "1"
+  },
+  "sps30": {
+    "mc_pm1": {
+      "value": 4.36548,
+      "unit": "µg/m^3"
     },
-    "mc_pm2_5":{
-      "value":6.408924,
-      "unit":"µg/m^3"
+    "mc_pm2_5": {
+      "value": 4.616328,
+      "unit": "µg/m^3"
     },
-    "mc_pm4":{
-      "value":6.408937,
-      "unit":"µg/m^3"
+    "mc_pm4": {
+      "value": 4.616331,
+      "unit": "µg/m^3"
     },
-    "mc_pm10":{
-      "value":6.408937,
-      "unit":"µg/m^3"
+    "mc_pm10": {
+      "value": 4.616331,
+      "unit": "µg/m^3"
     },
-    "nc_pm0_5":{
-      "value":41.068832,
-      "unit":"#/cm^3"
+    "nc_pm0_5": {
+      "value": 29.581795,
+      "unit": "#/cm^3"
     },
-    "nc_pm1":{
-      "value":48.121014,
-      "unit":"#/cm^3"
+    "nc_pm1": {
+      "value": 34.661457,
+      "unit": "#/cm^3"
     },
-    "nc_pm2_5":{
-      "value":48.369194,
-      "unit":"#/cm^3"
+    "nc_pm2_5": {
+      "value": 34.840221,
+      "unit": "#/cm^3"
     },
-    "nc_pm4":{
-      "value":48.388023,
-      "unit":"#/cm^3"
+    "nc_pm4": {
+      "value": 34.853783,
+      "unit": "#/cm^3"
     },
-    "nc_pm10":{
-      "value":48.399010,
-      "unit":"#/cm^3"
+    "nc_pm10": {
+      "value": 34.861694,
+      "unit": "#/cm^3"
     },
-    "ps":{
-      "value":0.535905,
-      "unit":"µm"
+    "ps": {
+      "value": 0.540728,
+      "unit": "µm"
     }
   },
-  "bmx280":{
-    "temperature":{
-      "value":20.629999,
-      "unit":"°C"
+  "bmx280": {
+    "temperature": {
+      "value": 17.190001,
+      "unit": "°C"
     },
-    "pressure":{
-      "value":102.472000,
-      "unit":"kPa"
+    "pressure": {
+      "value": 101.656998,
+      "unit": "kPa"
     },
-    "humidity":{
-      "value":56.209999,
-      "unit":"%"
+    "humidity": {
+      "value": 55.220001,
+      "unit": "%"
     }
+  },
+  "gps": {
+    "latitude": 53.56921,
+    "longitude": 10.03195,
+    "valid": 1
   }
 }

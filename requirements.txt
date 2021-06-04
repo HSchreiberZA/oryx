@@ -1,0 +1,4 @@
+aiocoap
+pymongo
+dnspython
+jsonpickle
