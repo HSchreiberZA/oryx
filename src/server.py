@@ -1,9 +1,4 @@
-import logging
-import asyncio
 import json
-from model.response import Response
-
-from aiocoap import *
 
 import datetime
 import logging
@@ -12,6 +7,12 @@ import asyncio
 
 import aiocoap.resource as resource
 import aiocoap
+
+from Mongo import Mongo
+from reading import Reading
+from jsonpickle import encode
+
+mongo = Mongo()
 
 
 class BlockResource(resource.Resource):
@@ -39,7 +40,7 @@ class BlockResource(resource.Resource):
         return aiocoap.Message(payload=payload)
 
 
-class Reading(resource.Resource):
+class ReceiveReading(resource.Resource):
 
     def __init__(self):
         super().__init__()
@@ -55,7 +56,9 @@ class Reading(resource.Resource):
 
     async def render_put(self, request):
         print(json.loads(request.payload.decode("utf-8")))
-        decoded = Response(**json.loads(request.payload.decode("utf-8")))
+        reading_dict = json.loads(request.payload.decode("utf-8"))
+        reading = Reading.as_reading(reading_dict)
+        mongo.insert(reading)
         payload = datetime.datetime.now(). \
             strftime("%Y-%m-%d %H:%M").encode('ascii')
         return aiocoap.Message(payload=payload)
@@ -145,9 +148,9 @@ def main():
     root.add_resource(['other', 'block'], BlockResource())
     root.add_resource(['other', 'separate'], SeparateLargeResource())
     root.add_resource(['whoami'], WhoAmI())
-    root.add_resource(['reading'], Reading())
+    root.add_resource(['reading'], ReceiveReading())
 
-    asyncio.Task(aiocoap.Context.create_server_context(root, bind=("2a04:4540:660a:d300:c159:8bb1:1b69:fbfc", None)))
+    asyncio.Task(aiocoap.Context.create_server_context(root))
 
     asyncio.get_event_loop().run_forever()
 
