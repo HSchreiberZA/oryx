@@ -1,8 +1,4 @@
-import json
-from dataclasses import dataclass
 from datetime import datetime
-
-from bson import json_util
 
 
 class Value(object):
@@ -43,7 +39,7 @@ class GPS(object):
         return GPS(-1, -1, False)
 
     def to_dict(self):
-        return self.__dict__
+        return {"valid": self.valid, "loc": [self.longitude, self.latitude]}
 
 
 class SPS30(object):
