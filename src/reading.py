@@ -42,38 +42,6 @@ class GPS(object):
         return {"valid": self.valid, "loc": [self.longitude, self.latitude]}
 
 
-class SPS30(object):
-    def __init__(self,
-                 mc_pm1: Value,
-                 mc_pm2_5: Value,
-                 mc_pm4: Value,
-                 mc_pm10: Value,
-                 nc_pm0_5: Value,
-                 nc_pm1: Value,
-                 nc_pm2_5: Value,
-                 nc_pm4: Value,
-                 nc_pm10: Value,
-                 ps: Value):
-        self.mc_pm1 = mc_pm1
-        self.mc_pm2_5 = mc_pm2_5
-        self.mc_pm4 = mc_pm4
-        self.mc_pm10 = mc_pm10
-        self.nc_pm0_5 = nc_pm0_5
-        self.nc_pm1 = nc_pm1
-        self.nc_pm2_5 = nc_pm2_5
-        self.nc_pm4 = nc_pm4
-        self.nc_pm10 = nc_pm10
-        self.ps = ps
-
-    @staticmethod
-    def empty():
-        return SPS30(Value.empty(), Value.empty(), Value.empty(), Value.empty(), Value.empty(), Value.empty(),
-                     Value.empty(), Value.empty(), Value.empty(), Value.empty())
-
-    def to_dict(self):
-        return self.__dict__
-
-
 class Device(object):
     def __init__(self, node: str):
         self.node: str = node
@@ -88,9 +56,8 @@ class Device(object):
 
 
 class Reading(object):
-    def __init__(self, sps30: SPS30, bmx280: BMX280, gps: GPS, device: Device):
+    def __init__(self, bmx280: BMX280, gps: GPS, device: Device):
         self.device = device
-        self.sps30 = sps30
         self.bmx280 = bmx280
         self.gps = gps
 
@@ -98,19 +65,16 @@ class Reading(object):
     def as_reading(json_dict: dict):
         device: Device = Device.empty()
         bmx280: BMX280 = BMX280.empty()
-        sps30: SPS30 = SPS30.empty()
         gps: GPS = GPS.empty()
 
         if 'device' in json_dict:
             device = Device(**json_dict['device'])
         if 'bmx280' in json_dict:
             bmx280 = BMX280(**json_dict['bmx280'])
-        if 'sps30' in json_dict:
-            sps30 = SPS30(**json_dict['sps30'])
         if 'gps' in json_dict:
             gps = GPS(**json_dict['gps'])
-        return Reading(sps30, bmx280, gps, device)
+        return Reading(bmx280, gps, device)
 
     def to_dict(self):
-        return {'device': self.device.to_dict(), 'sps30': self.sps30.to_dict(), 'bmx280': self.bmx280.to_dict(),
+        return {'device': self.device.to_dict(), 'bmx280': self.bmx280.to_dict(),
                 'gps': self.gps.to_dict()}
